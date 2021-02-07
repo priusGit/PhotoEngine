@@ -2,12 +2,12 @@
     margin: 0;
     padding: 0;
     font-family: 'Roboto';
+    
   }
  .photosPage{
      width: 80vw;
      margin-left: 10vw;
     font-size: 15px;
-    border: 1px solid grey;  
     overflow: hidden;
   }
   .photosPage h1{
@@ -37,6 +37,7 @@
     font-size: 15px;
     border-radius: 50px;
     background-color: #ddd;
+    
   }
   .mdc-button__icon{
     color: #808080;
@@ -47,17 +48,27 @@
     outline: none;
     background-color: inherit;
   }
-  input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active  {
-    background-color: inherit;
+  #searchSearchPage:-webkit-autofill,
+  #searchSearchPage:-webkit-autofill:hover, 
+  #searchSearchPage:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px white inset;
+  box-shadow: 0 0 0px 1000px white inset;
+  transition: background-color 6000s ease-in-out 0s;
 }
-.photosPage ul{
+#searchPhotoPage:-webkit-autofill,
+  #searchPhotoPage:-webkit-autofill:hover, 
+  #searchPhotoPage:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px #ddd inset;
+  box-shadow: 0 0 0px 1000px white inset;
+  transition: background-color 6000s ease-in-out 0s;
+}
+.photosPage .topSearchTags{
     display: flex;
     margin-bottom: 50px;
+    list-style: none;
 }
-.photosPage ul li{display: flex;
+.photosPage .topSearchTags li{
+    display: flex;
     display: inline-block;
     min-width: 120px;
     text-align: center;
@@ -68,11 +79,123 @@ input:-webkit-autofill:active  {
 .photoGrid
 {
     line-height:0;
-   column-count:3;
-   column-gap:24px;
+    column-count:3;
+    column-gap:24px;
+    margin-bottom: 50px;
 }
-.photoGrid img {
+.photo{
+  object-fit: contain;
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 50px;
+}
+.photoTag{
+  list-style: none;
+  display: inline-block;
+}
+.photoGrid .photoTag li{
+  text-transform: capitalize;
+  background-color: rgb(233, 233, 233);
+  padding: 13px 10px;
+  margin-right: 10px;
+  display: inline-block;
+  color: #808080;
+  margin-top: 10px;
+}
+.photoGrid div img {
     width: 100%;
     height: auto;
-    padding-bottom: 24px;
-  }
+}
+.blackOverlay
+{
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0,0,0,0.5);
+}
+.photoModal
+{
+  height: 90vh;
+  width: 75vw;
+  top: 5vh;
+  left: calc(12.5vw - 15px);
+  background-color: white;
+  position: relative;
+  padding: 10px 15px;
+  overflow: hidden;
+}
+.photoModalTopBar{
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+}
+.photoModalTopBar img{
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #eee;
+}
+.leftText{
+  display: flex;
+}
+.photoModalTopBar .leftText .name{
+  margin-left: 5px;
+}
+.fullname,.localisation{
+  font-weight: 700;
+}
+.photoModalTopBar .username{
+  font-size: 0.8rem;
+}
+.photoModalTopBar div div{
+  flex-grow: 1;
+}
+.photoModal .mainPhoto{
+  width: auto;
+  height: calc(90vh - 100px);
+  margin: 0 0 0 50%;
+  transform: translateX(-50%);
+  vertical-align:text-bottom;
+}
+.like,.add,.share,.info{
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  background-color: transparent;
+  border-radius: 4px;
+  display: inline-block;
+  position: relative;
+}
+.add,.info
+{
+  margin-left: 5px;
+}
+.fa-heart,.fa-plus{
+  color: grey;
+  position: relative;
+  top: 1px;
+  width: 12px;
+}
+.fa-share,.fa-info-circle,.fa-map-marker-alt 
+{
+  color: grey;
+  width: 12px;
+  margin-right: 5px;
+}
+.fa-map-marker-alt 
+{
+  color: #bbb;
+}
+.photoModalBottomBar{
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+.localisation
+{
+  margin-top: 10px;
+}

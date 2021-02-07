@@ -19,7 +19,6 @@ class PhotoEngine extends Component {
   fetchNewHints= ()=>{
     console.log("fetch new hints fired");
   }
-
   fetchPhotos = () =>{
     if(this.state.searchValue)
     {
@@ -33,6 +32,13 @@ class PhotoEngine extends Component {
       });
     }
 }
+
+checkEnter = e => {
+  if (e.keyCode === 13) {
+    this.fetchPhotos();
+  }
+};
+
   render(){
     let content;
     let trending ="flower, wallpapers, backgrounds, happy, love";
@@ -44,7 +50,7 @@ class PhotoEngine extends Component {
           <h1>Unsplash</h1>
           <p>The internet's source of  <a href="/">freely-usable images.</a></p>
           <p>Powered by creators everywhere.</p>
-          <div className="searchBar"><i className="material-icons mdc-button__icon" onClick={this.fetchPhotos}>search</i><input type="text" id="searchSearchPage" name="searchSearchPage" placeholder="Search free high-resolution photos" onChange={this.valueChangedHandler}></input></div>
+          <div className="searchBar"><i className="material-icons mdc-button__icon" onClick={this.fetchPhotos}>search</i><input onKeyDown={this.checkEnter} type="text" id="searchSearchPage" name="searchSearchPage" placeholder="Search free high-resolution photos" onChange={this.valueChangedHandler}></input></div>
           <p>Trending: {trending}</p>
         </div>
         </section>
