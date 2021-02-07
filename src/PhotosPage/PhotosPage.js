@@ -23,8 +23,19 @@ class PhotoEngine extends Component {
   this.fetchNewHints();
   }
 
-  fetchNewHints= (id)=>{
-    console.log(id);
+  fetchNewHints= (text)=>{
+    if(text.length>2)
+    {
+      axios.get('https://unsplash.com/nautocomplete/'+text)
+      .then(response => {
+        // 
+        console.log(response);
+      })
+      .catch(error => {
+        this.setState({ error:error});
+          console.log(error);
+      });
+    }
   }
   fetchOnePhoto = (id) => {
         axios.get('https://api.unsplash.com/photos/'+id+'?client_id=3D9Ayg46aXAF9_0DNCX1f99wfLCfuqsMtS1rgeR6aC4')

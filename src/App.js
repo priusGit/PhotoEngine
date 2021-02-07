@@ -13,11 +13,22 @@ class PhotoEngine extends Component {
 
   valueChangedHandler= (event) =>{
   this.setState({ searchValue:event.target.value});
-  this.fetchNewHints();
+  this.fetchNewHints(event.target.value);
   }
 
-  fetchNewHints= ()=>{
-    console.log("fetch new hints fired");
+  fetchNewHints= (text)=>{
+    if(text.length>2)
+    {
+      axios.get('https://unsplash.com/nautocomplete/'+text)
+      .then(response => {
+        // 
+        console.log(response);
+      })
+      .catch(error => {
+        this.setState({ error:error});
+          console.log(error);
+      });
+    }
   }
   fetchPhotos = () =>{
     if(this.state.searchValue)
