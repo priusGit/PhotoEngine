@@ -10,8 +10,9 @@
           rgba(0, 0, 0, 0.3), 
           rgba(0, 0, 0, 0.3)
         ),
-        url(./items/backgroundimageSearchPage.jpg);
-  font-size: 15px;    
+        url(./items/backgroundimageSearchPage.jpg),no-repeat center center fixed;
+  font-size: 15px;
+  background-size: cover;
 }
 .searchPage{
   width: 60vw;
@@ -39,16 +40,16 @@
 
 .searchPage .searchBar{
   margin-top: 20px;
-  margin-bottom: 20px;
   display:flex;
   align-items: center;  
   background-color: white;
   padding-left: 15px;
   border-radius: 5px;
+  height: 45px;
 }
 #searchSearchPage{
   width: 100%;
-  height: 45px;
+  height: 40px;
   border: none;
   padding-left: 15px;
   font-size: 15px;
@@ -65,4 +66,44 @@
 .searchPage p:last-child{
   
   font-size: 1.1rem;
+}
+.suggestions{
+  margin-top: 10px;
+  width: 60vw;
+}
+.suggestions ul
+{
+  width: 100%;
+  list-style: none;
+  position: absolute;
+  border-radius: 5px;
+  background-color: white;
+  border: 1px solid #eee;
+}
+.suggestions li{
+  box-sizing: border-box;
+  background-color: white;
+  width: 100%;
+  border-radius: 5px;
+  height: 45px;
+  border: none;
+  padding-left: 15px;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+}
+.suggestions li:hover{
+  cursor: pointer;
+  background-color: #eee;
+}
+.trending{
+  margin-top: 20px;
+}
+
+#searchSearchPage:-webkit-autofill,
+#searchSearchPage:-webkit-autofill:hover, 
+#searchSearchPage:-webkit-autofill:focus {
+-webkit-box-shadow: 0 0 0px 1000px white inset;
+box-shadow: 0 0 0px 1000px white inset;
+transition: background-color 6000s ease-in-out 0s;
 }

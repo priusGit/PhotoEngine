@@ -17,7 +17,7 @@
     margin-bottom: 20px;
   }
   .photosPage .searchBar{
-    width: 60%;
+    width: 60vw;
     margin-top: 20px;
     margin-bottom: 20px;
     display:flex;
@@ -44,17 +44,10 @@
     cursor: pointer;
     user-select: none;
   }
-  #searchPhotoPage:focus{
+  *:focus{
     outline: none;
     background-color: inherit;
   }
-  #searchSearchPage:-webkit-autofill,
-  #searchSearchPage:-webkit-autofill:hover, 
-  #searchSearchPage:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0px 1000px white inset;
-  box-shadow: 0 0 0px 1000px white inset;
-  transition: background-color 6000s ease-in-out 0s;
-}
 #searchPhotoPage:-webkit-autofill,
   #searchPhotoPage:-webkit-autofill:hover, 
   #searchPhotoPage:-webkit-autofill:focus {
@@ -62,19 +55,34 @@
   box-shadow: 0 0 0px 1000px white inset;
   transition: background-color 6000s ease-in-out 0s;
 }
+.topBarContainer{
+  position: relative;
+}
 .photosPage .topSearchTags{
     display: flex;
     margin-bottom: 50px;
     list-style: none;
+    box-sizing: border-box;
 }
 .photosPage .topSearchTags li{
     display: flex;
     display: inline-block;
-    min-width: 120px;
+    min-width: 100px;
     text-align: center;
     border: 1px solid #ccc;
     padding: 13px 20px;
     margin-right: 10px;
+    text-transform: capitalize;
+    border-radius: 5px;
+}
+.transisionGradient{
+  position: absolute;
+  width: 90px;
+  top: -6px;
+  right: 0;
+  height: 60px;
+  background: rgb(255,255,255);
+background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.9640231092436975) 69%, rgba(255,255,255,1) 100%);
 }
 .photoGrid
 {
@@ -101,28 +109,34 @@
   display: inline-block;
   color: #808080;
   margin-top: 10px;
+  border-radius: 3px;
 }
 .photoGrid div img {
     width: 100%;
     height: auto;
 }
-.blackOverlay
-{
+.photoModalContainer{
+
   position: fixed;
   top: 0;
   left: 0;
+}
+.blackOverlay
+{
   height: 100vh;
   width: 100vw;
   background-color: rgba(0,0,0,0.5);
 }
 .photoModal
 {
+  position: fixed;
+  top: 0;
+  left: 0;
   height: 90vh;
   width: 75vw;
   top: 5vh;
   left: calc(12.5vw - 15px);
   background-color: white;
-  position: relative;
   padding: 10px 15px;
   overflow: hidden;
 }
@@ -188,6 +202,25 @@
 {
   color: #bbb;
 }
+
+.fa-times{
+  z-index: 5;
+  margin: 0 20px;
+}
+.prevPicture,.nextPicture{
+  position: absolute;
+  top: 50%;
+  color: white;
+  font-size: 35px;
+  background-color: transparent;
+  border: none;
+}
+.nextPicture{
+  right: 5vw;
+} 
+.prevPicture{
+  left: 5vw;
+}
 .photoModalBottomBar{
   width: 100%;
   height: 50px;
@@ -198,4 +231,11 @@
 .localisation
 {
   margin-top: 10px;
+}
+.photosPage .suggestions{
+  margin-left: 50%;
+  transform: translateX(-50%);
+} 
+.disabled{
+  opacity: 0.4;
 }

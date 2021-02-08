@@ -8,21 +8,26 @@ class PhotoEngine extends Component {
     apiKey:"3D9Ayg46aXAF9_0DNCX1f99wfLCfuqsMtS1rgeR6aC4",
     responded:false,
     data:null,
-    error:null
+    error:null,
+    suggestions:null,
+    photoIds:null
   }
 
   valueChangedHandler= (event) =>{
-  this.setState({ searchValue:event.target.value});
-  this.fetchNewHints(event.target.value);
+  this.setState({ searchValue:event.target.value},this.fetchNewHints(event.target.value));
   }
 
   fetchNewHints= (text)=>{
+    //CORS Problem, nie działa i nie będzie, chyba że mi odpowiedzą w poniedziałek/ wtorek jak sie z tego właściwie korzysta
     if(text.length>2)
     {
       axios.get('https://unsplash.com/nautocomplete/'+text)
       .then(response => {
-        // 
-        console.log(response);
+        this.setState({ suggestions:null});
+        if(response.data.did_you_mean.length>0)
+        {
+          this.setState({ suggestions:response.data,error:null});
+        }
       })
       .catch(error => {
         this.setState({ error:error});
@@ -31,17 +36,25 @@ class PhotoEngine extends Component {
     }
   }
   fetchPhotos = () =>{
+    let idsArray=[];
     if(this.state.searchValue)
     {
       axios.get('https://api.unsplash.com/search/photos?client_id=3D9Ayg46aXAF9_0DNCX1f99wfLCfuqsMtS1rgeR6aC4&query='+this.state.searchValue)
       .then(response => {
-        this.setState({ data:response,responded:true,error:null});
-      })
+        response.data.results.map((photo,index) => (
+            idsArray[index]=photo.id
+        ))
+        this.setState({ data:response,responded:true,error:null,photoIds:idsArray});
+        })
       .catch(error => {
         this.setState({ error:error});
           console.log(error);
       });
     }
+}
+
+fetchPhotosFromSuggestion = (query) => {
+  this.setState({ searchValue:query},this.fetchPhotos); 
 }
 
 checkEnter = e => {
@@ -51,18 +64,46 @@ checkEnter = e => {
 };
 
   render(){
-    let content;
+    let content,suggest;
     let trending ="flower, wallpapers, backgrounds, happy, love";
+
     if(!this.state.responded)
-    {
+    { 
+      if(this.state.suggestions && this.state.searchValue.length>2)
+      {
+        suggest=(
+          <div className="suggestions">
+            <ul>
+              {this.state.suggestions.did_you_mean.map(suggestion => (
+                <li key={suggestion.query} onClick={() => this.fetchPhotosFromSuggestion(suggestion.query)}>{suggestion.query}</li>
+              ))}
+            </ul>
+          </div>
+        );
+      }
+      else
+      {
+        if(this.state.searchValue.length>2)
+        {
+          suggest=(
+            <div className="suggestions">
+              <ul>
+                  <li>No coresponding tags found</li>
+              </ul>
+            </div>
+          );
+        }
+      }
       content = (
         <section className="mainPage">
           <div className="searchPage">
           <h1>Unsplash</h1>
           <p>The internet's source of  <a href="/">freely-usable images.</a></p>
           <p>Powered by creators everywhere.</p>
-          <div className="searchBar"><i className="material-icons mdc-button__icon" onClick={this.fetchPhotos}>search</i><input onKeyDown={this.checkEnter} type="text" id="searchSearchPage" name="searchSearchPage" placeholder="Search free high-resolution photos" onChange={this.valueChangedHandler}></input></div>
-          <p>Trending: {trending}</p>
+          <div className="searchBar"><i className="material-icons mdc-button__icon" onClick={this.fetchPhotos}>search</i><input onKeyDown={this.checkEnter} type="text" id="searchSearchPage" name="searchSearchPage" placeholder="Search free high-resolution photos" onChange={this.valueChangedHandler} autoComplete="off"></input>
+          </div>
+          {suggest}
+          <p className="trending">Trending: {trending}</p>
         </div>
         </section>
       );
@@ -70,7 +111,7 @@ checkEnter = e => {
     else
     {
       content = (
-      <PhotosPage data={this.state.data} searchValue={this.state.searchValue}/>
+      <PhotosPage data={this.state.data} searchValue={this.state.searchValue} photoIds={this.state.photoIds}/>
       );
     }
     return (
