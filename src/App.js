@@ -2,6 +2,8 @@ import './App.css';
 import React, { Component } from 'react';
 import axios from 'axios'
 import PhotosPage from './PhotosPage/PhotosPage'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimes } from '@fortawesome/free-solid-svg-icons'
 class PhotoEngine extends Component {
   state = {
     searchValue:"",
@@ -23,11 +25,7 @@ class PhotoEngine extends Component {
     {
       axios.get('https://unsplash.com/nautocomplete/'+text)
       .then(response => {
-        this.setState({ suggestions:null});
-        if(response.data.did_you_mean.length>0)
-        {
           this.setState({ suggestions:response.data,error:null});
-        }
       })
       .catch(error => {
         this.setState({ error:error});
@@ -52,7 +50,11 @@ class PhotoEngine extends Component {
       });
     }
 }
-
+onXclick = () => {
+  document.getElementById("searchSearchPage").value=""; 
+  document.getElementById("searchSearchPage").focus();
+  this.setState({searchValue:null});
+}
 fetchPhotosFromSuggestion = (query) => {
   this.setState({ searchValue:query},this.fetchPhotos); 
 }
@@ -64,36 +66,52 @@ checkEnter = e => {
 };
 
   render(){
-    let content,suggest;
+    let content;
     let trending ="flower, wallpapers, backgrounds, happy, love";
 
     if(!this.state.responded)
     { 
-      if(this.state.suggestions && this.state.searchValue.length>2)
+      let suggest;
+    if(this.state.suggestions)
+    {
+      if(this.state.suggestions.did_you_mean.length>0)
       {
-        suggest=(
-          <div className="suggestions">
-            <ul>
-              {this.state.suggestions.did_you_mean.map(suggestion => (
-                <li key={suggestion.query} onClick={() => this.fetchPhotosFromSuggestion(suggestion.query)}>{suggestion.query}</li>
-              ))}
-            </ul>
-          </div>
-        );
-      }
-      else
-      {
-        if(this.state.searchValue.length>2)
+        if(this.state.searchValue && this.state.searchValue.length>2)
         {
           suggest=(
             <div className="suggestions">
               <ul>
-                  <li>No coresponding tags found</li>
+                {this.state.suggestions.did_you_mean.map(suggestion => (
+                  <li key={suggestion.query} onClick={() => this.fetchPhotosFromSuggestion(suggestion.query)}>{suggestion.query}</li>
+                ))}
               </ul>
             </div>
           );
         }
       }
+    else      
+      {
+           if(this.state.searchValue && this.state.searchValue.length>2)
+           {
+            suggest=(
+              <div className="suggestions">
+                <ul>
+                   <li>No coresponding tags found</li>
+                </ul>
+              </div>
+            );
+           }
+           else{
+             suggest=null;
+           }
+      }
+    }
+    
+    let xSign=null;
+      if(document.getElementById("searchSearchPage"))
+      {
+        document.getElementById("searchSearchPage").value.length !==0 ? xSign = <FontAwesomeIcon onClick={() => this.onXclick()} icon={faTimes}/> : xSign = null;
+    }
       content = (
         <section className="mainPage">
           <div className="searchPage">
@@ -101,7 +119,7 @@ checkEnter = e => {
           <p>The internet's source of  <a href="/">freely-usable images.</a></p>
           <p>Powered by creators everywhere.</p>
           <div className="searchBar"><i className="material-icons mdc-button__icon" onClick={this.fetchPhotos}>search</i><input onKeyDown={this.checkEnter} type="text" id="searchSearchPage" name="searchSearchPage" placeholder="Search free high-resolution photos" onChange={this.valueChangedHandler} autoComplete="off"></input>
-          </div>
+          {xSign}</div>
           {suggest}
           <p className="trending">Trending: {trending}</p>
         </div>

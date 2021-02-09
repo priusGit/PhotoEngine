@@ -32,11 +32,7 @@ class PhotoEngine extends Component {
     {
       axios.get('https://unsplash.com/nautocomplete/'+text)
       .then(response => {
-        this.setState({ suggestions:null});
-        if(response.data.did_you_mean.length>0)
-        {
           this.setState({ suggestions:response.data,error:null});
-        }
       })
       .catch(error => {
         this.setState({ error:error});
@@ -108,7 +104,7 @@ checkEnter = e => {
     document.getElementById("searchPhotoPage").value=""; 
     document.getElementById("searchPhotoPage").focus();
     this.setState({searchValue:null});
-  }
+}
   render(){
 
     let photos;   
@@ -118,7 +114,7 @@ checkEnter = e => {
         <section className="photoGrid">
           {this.state.data.data.results.map((photo,index) => (
             
-          <div className="photo" key={photo.id}><img onClick={() => this.fetchOnePhoto(photo.id)} src={photo.urls.regular} alt={photo.alt_description} />
+          <div className="photo" key={photo.id}><img loading="lazy" onClick={() => this.fetchOnePhoto(photo.id)} src={photo.urls.regular} alt={photo.alt_description} />
           <ul className="photoTag">
           {photo.tags.map((littleTag,index) => (
 
@@ -138,7 +134,7 @@ checkEnter = e => {
           <div className="photoModal">
             <div className="photoModalTopBar">
               <div className="leftText">
-              <img src={this.state.showedPhoto.data.user.profile_image.small} alt="username thumbnail"/>
+              <img loading="lazy" src={this.state.showedPhoto.data.user.profile_image.small} alt="username thumbnail"/>
                <div className="name"> <p className="fullname">{this.state.showedPhoto.data.user.name}</p>
                 <p className="username">@{this.state.showedPhoto.data.user.username}</p></div>
               </div>
@@ -150,7 +146,7 @@ checkEnter = e => {
                 </button>
               </div>
             </div>
-            <img className="mainPhoto" src={this.state.showedPhoto.data.urls.full} alt={this.state.showedPhoto.data.alt_description}/>
+            <img  className="mainPhoto" loading="lazy" src={this.state.showedPhoto.data.urls.full} alt={this.state.showedPhoto.data.alt_description}/>
             <div className="photoModalBottomBar">
             <div className="leftText">
                <div className="localisation">
@@ -173,8 +169,10 @@ checkEnter = e => {
     }
     let suggest;
     if(this.state.suggestions)
+    {
+      if(this.state.suggestions.did_you_mean.length>0)
       {
-        if(this.state.searchValue.length>2)
+        if(this.state.searchValue && this.state.searchValue.length>2)
         {
           suggest=(
             <div className="suggestions">
@@ -189,9 +187,7 @@ checkEnter = e => {
       }
     else      
       {
-        if(this.state.searchValue)
-        {
-           if(this.state.searchValue.length>2)
+           if(this.state.searchValue && this.state.searchValue.length>2)
            {
             suggest=(
               <div className="suggestions">
@@ -204,11 +200,11 @@ checkEnter = e => {
            else{
              suggest=null;
            }
-        }
       }
+    }
      let topTags;
      topTags = (
-      <ul className="topSearchTags">
+      <ul className="topSearchTags" >
         {this.state.topTags.map(topTag=> (
           <li key={topTag} onClick={() => this.fetchPhotosFromSuggestion(topTag)}>{topTag}</li>
     ))}
@@ -238,10 +234,10 @@ checkEnter = e => {
       }
       }
 
-    let xSign;
+    let xSign=null;
       if(document.getElementById("searchPhotoPage"))
       {
-        document.getElementById("searchPhotoPage").value!==0 ? xSign = <FontAwesomeIcon onClick={() => this.onXclick()} icon={faTimes}/> : xSign = null;
+        document.getElementById("searchPhotoPage").value.length !==0 ? xSign = <FontAwesomeIcon onClick={() => this.onXclick()} icon={faTimes}/> : xSign = null;
     }
     return (
         <section className="photosPage" >

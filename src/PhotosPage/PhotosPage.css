@@ -63,6 +63,7 @@
     margin-bottom: 50px;
     list-style: none;
     box-sizing: border-box;
+    transition: 0.2s ease-in-out;
 }
 .photosPage .topSearchTags li{
     display: flex;
@@ -206,6 +207,7 @@ background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.96
 .fa-times{
   z-index: 5;
   margin: 0 20px;
+  color: grey;
 }
 .prevPicture,.nextPicture{
   position: absolute;
@@ -235,6 +237,8 @@ background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.96
 .photosPage .suggestions{
   margin-left: 50%;
   transform: translateX(-50%);
+  position: relative;
+  z-index: 5;
 } 
 .disabled{
   opacity: 0.4;
