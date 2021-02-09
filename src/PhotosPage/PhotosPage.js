@@ -118,7 +118,7 @@ checkEnter = e => {
           <ul className="photoTag">
           {photo.tags.map((littleTag,index) => (
 
-            (littleTag.source ? <li key={index}>{littleTag.source.title}</li> : <li key={index}>{littleTag.title}</li>)
+            (littleTag.source ? <li key={index} onClick={() => this.fetchPhotosFromSuggestion(littleTag.source.title)}>{littleTag.source.title}</li> : <li key={index} onClick={() => this.fetchPhotosFromSuggestion(littleTag.title)}>{littleTag.title}</li>)
           ))}
           </ul>
           </div>
