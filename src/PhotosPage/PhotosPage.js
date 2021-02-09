@@ -76,7 +76,7 @@ class PhotoEngine extends Component {
       if(this.state.searchValue)
       {
         this.setState({ title:this.state.searchValue});
-        axios.get('https://api.unsplash.com/search/photos?client_id=3D9Ayg46aXAF9_0DNCX1f99wfLCfuqsMtS1rgeR6aC4&query='+this.state.searchValue)
+        axios.get('https://api.unsplash.com/search/photos?per_page=20&client_id=3D9Ayg46aXAF9_0DNCX1f99wfLCfuqsMtS1rgeR6aC4&query='+this.state.searchValue)
         .then(response => {
           response.data.results.map((photo,index) => (
             idsArray[index]=photo.id
